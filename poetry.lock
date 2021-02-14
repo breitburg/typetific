@@ -1,0 +1,48 @@
+[[package]]
+name = "english-words"
+version = "1.0.3"
+description = "Contains sets of English words"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
+name = "pyside6"
+version = "6.0.1"
+description = "Python bindings for the Qt cross-platform application and UI framework"
+category = "main"
+optional = false
+python-versions = ">=3.6, <3.10"
+
+[package.dependencies]
+shiboken6 = "6.0.1"
+
+[[package]]
+name = "shiboken6"
+version = "6.0.1"
+description = "Python / C++ bindings helper module"
+category = "main"
+optional = false
+python-versions = ">=3.6, <3.10"
+
+[metadata]
+lock-version = "1.1"
+python-versions = ">=3.8, <3.10"
+content-hash = "baf2ae45ac06a945831643b815ea4ccf2757fbec160d90d8018724bfb3a7b8ca"
+
+[metadata.files]
+english-words = [
+    {file = "english-words-1.0.3.tar.gz", hash = "sha256:e936ba237455e16a89b877660c0e160852e54de682ad553d79083dbb7b10b345"},
+]
+pyside6 = [
+    {file = "PySide6-6.0.1-6.0.1-cp36.cp37.cp38.cp39-abi3-macosx_10_14_x86_64.whl", hash = "sha256:2d0300bb76a8f04f78682c50dbb3cd10cf42d5381648fc9bbe119cd911488df6"},
+    {file = "PySide6-6.0.1-6.0.1-cp36.cp37.cp38.cp39-abi3-macosx_10_15_x86_64.whl", hash = "sha256:0084af53498ecc319b7efba4075cdde2f58afa047658363fd88edfe213b2139f"},
+    {file = "PySide6-6.0.1-6.0.1-cp36.cp37.cp38.cp39-abi3-manylinux1_x86_64.whl", hash = "sha256:4a7ebd61d446e8200ace93390b2aeacc7ea20ccbafe9d0cd8d31899d63c9183a"},
+    {file = "PySide6-6.0.1-6.0.1-cp36.cp37.cp38.cp39-none-win_amd64.whl", hash = "sha256:e589af836ba5f2a50926baf906c85d7e030995d918ae8949b31fe6325641d68b"},
+]
+shiboken6 = [
+    {file = "shiboken6-6.0.1-6.0.1-cp36.cp37.cp38.cp39-abi3-macosx_10_14_x86_64.whl", hash = "sha256:1989a330d2fb343651fe1664166cfa485fefbdac7e40a69c6268f019fb7df1d8"},
+    {file = "shiboken6-6.0.1-6.0.1-cp36.cp37.cp38.cp39-abi3-macosx_10_15_x86_64.whl", hash = "sha256:dabf96d7d15323b7ec9377d9014a9e55c5a31e0a9e76e1bcd4d4242d4be5b8ce"},
+    {file = "shiboken6-6.0.1-6.0.1-cp36.cp37.cp38.cp39-abi3-manylinux1_x86_64.whl", hash = "sha256:7a4190d579d2df0a5d5d888b1c1ec2255aedf2e985899c5a51164ba6246e4372"},
+    {file = "shiboken6-6.0.1-6.0.1-cp36.cp37.cp38.cp39-none-win_amd64.whl", hash = "sha256:3f7fdbc096a44fdbd5f2eca9082299e3be7c79333b41491611cc9e13763df748"},
+]
