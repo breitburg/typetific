@@ -31,7 +31,6 @@ class TypingWindow(QWidget):
             'line_padding': 10, 'font_factor': 8
         }
 
-        self.events = []
         self.reset()
         self.setupWindow()
 
@@ -40,34 +39,38 @@ class TypingWindow(QWidget):
         self.painter.begin(self)
         self.painter.setFont(QFont('Menlo', event.rect().height() / self.config['font_factor']))
 
+        # Line
         lineX = event.rect().width() / 6
         letterSize = self.painter.fontMetrics().size(Qt.TextSingleLine, self.text[self.pointer])
-
-        # Line
         lineColor = self.config['error_color'] if (
             not self.events[-1]['isCorrect'] if len(self.events) > 0 else False) else self.config['secondary_color']
+        lineWidth = letterSize.width() + self.config['line_padding']
         self.painter.setPen(QPen(lineColor, 1, Qt.SolidLine))
         self.painter.setBrush(QBrush(lineColor, Qt.SolidPattern))
-        self.painter.drawRect(lineX, 0, letterSize.width() + self.config['line_padding'], event.rect().height())
+        self.painter.drawRect(lineX, 0, lineWidth, event.rect().height())
 
         # Primary Text
         textY = event.rect().height() / 2 + letterSize.height() / 4
         self.painter.setPen(self.config['primary_color'])
-        self.painter.drawText(lineX + self.config['line_padding'] / 2, textY,
-                              self.text[self.pointer])
-        self.painter.drawText(lineX + letterSize.width() + self.config['line_padding'], textY,
+        self.painter.drawText(lineX + self.config['line_padding'] / 2, textY, self.text[self.pointer])
+        self.painter.drawText(lineX + lineWidth + self.config.get('line_padding') / 2, textY,
                               self.text[self.pointer + 1:])
 
         # Typed Text
         typedText = self.painter.fontMetrics().size(Qt.TextSingleLine, self.text[:self.pointer]).width()
         self.painter.setPen(self.config.get('secondary_color'))
-        self.painter.drawText(lineX - typedText - self.config.get('line_padding') / 2, textY,
-                              self.text[:self.pointer])
+        self.painter.drawText(lineX - typedText - self.config.get('line_padding') / 2, textY, self.text[:self.pointer])
 
         self.painter.end()
 
     def keyPressEvent(self, event) -> None:
         if event.key() == Qt.Key_Return or self.pointer + 1 >= len(self.text):
+            if len(self.events) > 0:
+                speed = round(60 / mean(
+                    [event['time'] - self.events[self.events.index(event) - 1]['time'] for event in self.events[1:]]))
+                print('speed: {} char/min, typos: {}'.format(speed, len(
+                    [event for event in self.events if not event['isCorrect']])))
+
             self.reset()
             return
 
@@ -86,12 +89,6 @@ class TypingWindow(QWidget):
         self.repaint()
 
     def reset(self) -> None:
-        if len(self.events) > 0:
-            speed = round(60 / mean(
-                [event['time'] - self.events[self.events.index(event) - 1]['time'] for event in self.events[1:]]))
-            print('speed: {} char/min, typos: {}'.format(speed, len(
-                [event for event in self.events if not event['isCorrect']])))
-
         self.events = []
         self.text = ' '.join([choice(list(english_words_set)).lower() for _ in range(10)])
         self.pointer = 0
