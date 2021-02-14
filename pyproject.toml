@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "type"
 version = "0.1.0"
-description = ""
-authors = ["breitburg <me@breitburg.com>"]
+description = "An application for practicing keyboard typing speed skills"
+authors = ["Ilya Breitburg <me@breitburg.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.8, <3.10"
