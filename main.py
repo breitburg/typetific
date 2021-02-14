@@ -57,7 +57,7 @@ class TypingWindow(QWidget):
                 [event['time'] - self.events[self.events.index(event) - 1]['time'] for event in self.events[1:]]))
             typos = len([event for event in self.events if not event['correct']])
 
-            print('Done!')
+            self.painter.setPen(self.config['primary_color'])
             self.painter.drawText(lineX + lineWidth + self.config['line_padding'], textY,
                                   'S: {}, E: {}'.format(speed, typos))
 
