@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "type"
+name = "typetific"
 version = "0.1.0"
 description = "An application for practicing keyboard typing speed skills"
 authors = ["Ilya Breitburg <me@breitburg.com>"]

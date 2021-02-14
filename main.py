@@ -57,8 +57,7 @@ class TypingWindow(QWidget):
                 [event['time'] - self.events[self.events.index(event) - 1]['time'] for event in self.events[1:]]))
             typos = len([event for event in self.events if not event['correct']])
 
-            print('ff')
-            self.painter.setPen(self.config['background_color'])
+            print('Done!')
             self.painter.drawText(lineX + lineWidth + self.config['line_padding'], textY,
                                   'S: {}, E: {}'.format(speed, typos))
 
@@ -97,7 +96,7 @@ class TypingWindow(QWidget):
         self.repaint()
 
     def setupWindow(self) -> None:
-        self.setWindowTitle('Type')
+        self.setWindowTitle('Typetific')
         self.setMinimumSize(1100, 620)
         self.setStyleSheet('background: {}; color: {};'.format(self.config['background_color'].name(),
                                                                self.config['primary_color'].name()))
