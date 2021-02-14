@@ -6,4 +6,4 @@ open-source app.
 ![Screenshot of Type in a white theme](assets/screenshot_white.png)
 
 Currently, it is under heavy development. It uses [Qt for Python](https://wiki.qt.io/Talk:Qt_for_Python) framework
-and [Python](https://python.org/) programming language to draw the interface and implement human interactions interface.
+and [Python](https://python.org/) programming language to render graphics and implement human interactions interface.
