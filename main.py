@@ -70,22 +70,20 @@ class TypingWindow(QWidget):
         self.painter.end()
 
     def keyPressEvent(self, event) -> None:
-        if event.key() == Qt.Key_Return:
-            self.reset()
-            return
+        if event.key() == Qt.Key_Return: self.reset()
+        elif event.key() == Qt.Key_Backspace: self.pointer -= 1
+        elif event.key() not in printable_ords or self.isEnd: return
+        else:
+            isCorrect = event.text() == self.text[self.pointer]
+            self.events.append({
+                'key': event.text(),
+                'pointer': self.pointer,
+                'correct': isCorrect,
+                'time': time()
+            })
 
-        if event.key() not in printable_ords or self.isEnd:
-            return
+            self.pointer += 1
 
-        isCorrect = event.text() == self.text[self.pointer]
-        self.events.append({
-            'key': event.text(),
-            'pointer': self.pointer,
-            'correct': isCorrect,
-            'time': time()
-        })
-
-        self.pointer += 1
         self.repaint()
 
     def reset(self) -> None:
