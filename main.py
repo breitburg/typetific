@@ -20,8 +20,8 @@ class TypingWindow(QWidget):
             'background_color': QColor(255, 255, 255),
             'primary_color': QColor(34, 34, 34),
             'enable_sliding': True, 'line_padding': 10,
-            'font_factor': 7, 'dictionary': english_words_set,
-            'words_count': 30
+            'font_factor': 6, 'dictionary': english_words_set,
+            'words_count': 30, 'enable_backspace': True
         }
 
         self.reset()
@@ -78,7 +78,7 @@ class TypingWindow(QWidget):
     def keyPressEvent(self, event) -> None:
         if event.key() == Qt.Key_Return:
             self.reset()
-        elif event.key() == Qt.Key_Backspace and self.pointer > 0:
+        elif self.config['enable_backspace'] and event.key() == Qt.Key_Backspace and self.pointer > 0:
             self.pointer -= 1
         elif event.key() not in [ord(char) for char in printable] or self.isEnd:
             return
