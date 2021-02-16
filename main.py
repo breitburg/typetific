@@ -30,18 +30,22 @@ class TypingWindow(QWidget):
     def paintEvent(self, event):
         self.painter = QPainter()
         self.painter.begin(self)
-        self.painter.setFont(QFont('Menlo', event.rect().height() / self.config['font_factor']))
 
+        # Limiting the font size to 32
+        self.painter.setFont(QFont('Menlo', max(32, event.rect().height() / self.config['font_factor'])))
         self.isEnd = self.pointer >= len(self.text)
 
-        # Line
-        lineX = event.rect().width() / 6
+        # Calculating line properties
         letterSize = self.painter.fontMetrics()
         textY = event.rect().height() / 2 + letterSize.height() / 4
         lineColor = self.config['done_color'] if self.isEnd else (
             self.config['error_color'] if len(self.events) > 0 and not self.events[-1][
                 'correct'] else self.config['secondary_color'])
         lineWidth = letterSize.maxWidth() + self.config['line_padding']
+        linePadding = event.rect().width() / 4
+        lineX = linePadding + (((event.rect().width() - lineWidth) - (linePadding * 2)) / len(self.text)) * self.pointer
+
+        # Rendering line
         self.painter.setPen(QPen(lineColor, 1, Qt.SolidLine))
         self.painter.setBrush(QBrush(lineColor, Qt.SolidPattern))
         self.painter.drawRect(lineX, 0, lineWidth, event.rect().height())
@@ -57,9 +61,8 @@ class TypingWindow(QWidget):
                 [event['time'] - self.events[self.events.index(event) - 1]['time'] for event in self.events[1:]]))
             typos = len([event for event in self.events if not event['correct']])
 
-            self.painter.setPen(self.config['primary_color'])
-            self.painter.drawText(lineX + lineWidth + self.config['line_padding'], textY,
-                                  'S: {}, E: {}'.format(speed, typos))
+            # TODO: Implement result screen
+            #  and draw next text starting on the right
 
         # Typed Text
         typedTextSize = self.painter.fontMetrics().size(Qt.TextSingleLine, self.text[:self.pointer])
@@ -70,9 +73,12 @@ class TypingWindow(QWidget):
         self.painter.end()
 
     def keyPressEvent(self, event) -> None:
-        if event.key() == Qt.Key_Return: self.reset()
-        elif event.key() == Qt.Key_Backspace: self.pointer -= 1
-        elif event.key() not in printable_ords or self.isEnd: return
+        if event.key() == Qt.Key_Return:
+            self.reset()
+        elif event.key() == Qt.Key_Backspace and self.pointer > 0:
+            self.pointer -= 1
+        elif event.key() not in printable_ords or self.isEnd:
+            return
         else:
             isCorrect = event.text() == self.text[self.pointer]
             self.events.append({
