@@ -8,8 +8,6 @@ from time import time
 from statistics import mean
 from string import printable
 
-printable_ords = set([ord(char) for char in printable])
-
 
 class TypingWindow(QWidget):
     def __init__(self, parent=None):
@@ -21,7 +19,9 @@ class TypingWindow(QWidget):
             'secondary_color': QColor(215, 215, 215),
             'background_color': QColor(255, 255, 255),
             'primary_color': QColor(34, 34, 34),
-            'line_padding': 10, 'font_factor': 7
+            'enable_sliding': True, 'line_padding': 10,
+            'font_factor': 7, 'dictionary': english_words_set,
+            'words_count': 30
         }
 
         self.reset()
@@ -43,7 +43,8 @@ class TypingWindow(QWidget):
                 'correct'] else self.config['secondary_color'])
         lineWidth = letterSize.maxWidth() + self.config['line_padding']
         linePadding = event.rect().width() / 4
-        lineX = linePadding + (((event.rect().width() - lineWidth) - (linePadding * 2)) / len(self.text)) * self.pointer
+        lineX = linePadding if not self.config['enable_sliding'] else linePadding + (
+                ((event.rect().width() - lineWidth) - (linePadding * 2)) / len(self.text)) * self.pointer
 
         # Rendering line
         self.painter.setPen(QPen(lineColor, 1, Qt.SolidLine))
@@ -56,11 +57,13 @@ class TypingWindow(QWidget):
             self.painter.drawText(lineX + self.config['line_padding'] / 2, textY, self.text[self.pointer])
             self.painter.drawText(lineX + lineWidth + self.config['line_padding'] / 2, textY,
                                   self.text[self.pointer + 1:])
-        else:
+
+        if len(self.events) > 1:
             speed = round(60 / mean(
                 [event['time'] - self.events[self.events.index(event) - 1]['time'] for event in self.events[1:]]))
             typos = len([event for event in self.events if not event['correct']])
 
+            print('{} char/min, {} typos'.format(speed, typos))
             # TODO: Implement result screen
             #  and draw next text starting on the right
 
@@ -77,7 +80,7 @@ class TypingWindow(QWidget):
             self.reset()
         elif event.key() == Qt.Key_Backspace and self.pointer > 0:
             self.pointer -= 1
-        elif event.key() not in printable_ords or self.isEnd:
+        elif event.key() not in [ord(char) for char in printable] or self.isEnd:
             return
         else:
             isCorrect = event.text() == self.text[self.pointer]
@@ -94,7 +97,8 @@ class TypingWindow(QWidget):
 
     def reset(self) -> None:
         self.events = []
-        self.text = ' '.join([choice(list(english_words_set)).lower() for _ in range(10)])
+        self.text = ' '.join(
+            [choice(list(self.config['dictionary'])).lower() for _ in range(self.config['words_count'])])
         self.pointer = 0
 
         self.repaint()
