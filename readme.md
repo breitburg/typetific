@@ -1,3 +1,5 @@
+![Logo](assets/logo.png)
+
 # Typetific
 
 An application that was made to help you to practice your keyboard typing skills. It is easy to use, multiplatform
