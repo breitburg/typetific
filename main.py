@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QApplication, QWidget
+from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtGui import QPainter, QBrush, QPen, QColor, QFont
 from PySide6.QtCore import Qt, QCoreApplication, QSettings
 
@@ -9,7 +9,7 @@ from statistics import mean
 from string import printable
 
 
-class TypingWindow(QWidget):
+class TypingWindow(QMainWindow):
     def __init__(self, parent=None):
         super(TypingWindow, self).__init__(parent=parent)
 
@@ -104,6 +104,7 @@ class TypingWindow(QWidget):
     def setupWindow(self) -> None:
         self.setWindowTitle('Typetific')
         self.setMinimumSize(1100, 620)
+        self.setUnifiedTitleAndToolBarOnMac(True)
         self.setStyleSheet('background: {}; color: {};'.format(self.config['background_color'].name(),
                                                                self.config['primary_color'].name()))
 
