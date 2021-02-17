@@ -1,0 +1,2 @@
+PySide2>=5.15.2
+english-words>=1.0.3
