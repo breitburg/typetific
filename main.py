@@ -1,6 +1,6 @@
-from PySide6.QtWidgets import QApplication, QMainWindow
-from PySide6.QtGui import QPainter, QBrush, QPen, QColor, QFont
-from PySide6.QtCore import Qt, QCoreApplication, QSettings
+from PySide2.QtWidgets import QApplication, QMainWindow
+from PySide2.QtGui import QPainter, QBrush, QPen, QColor, QFont
+from PySide2.QtCore import Qt, QCoreApplication, QSettings
 
 from random import choice
 from english_words import english_words_set
