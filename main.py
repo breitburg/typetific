@@ -1,3 +1,7 @@
+from os import environ as environment
+
+environment['QT_MAC_WANTS_LAYER'] = '1'  # Exclusively for Big Sur
+
 from PySide2.QtWidgets import QApplication, QMainWindow
 from PySide2.QtGui import QPainter, QBrush, QPen, QColor, QFont
 from PySide2.QtCore import Qt, QCoreApplication, QSettings
@@ -116,7 +120,6 @@ if __name__ == '__main__':
     QCoreApplication.setApplicationName(window.windowTitle())
     QCoreApplication.setOrganizationName('Breitburg Ilya')
     QCoreApplication.setOrganizationDomain('breitburg.com')
-
     window.show()
 
     app.exec_()
